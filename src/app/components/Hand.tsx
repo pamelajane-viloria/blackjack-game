@@ -6,7 +6,7 @@ interface HandProps {
 	showFirstCard: boolean;
 }
 
-const Hand: React.FC<HandProps> = ({ cards, showFirstCard  }) => {
+const Hand: React.FC<HandProps> = ({ cards, showFirstCard }) => {
 	return (
 		<div className="flex flex-row gap-3 m-5">
 		{cards.map((card, index) => (

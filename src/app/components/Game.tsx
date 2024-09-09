@@ -17,7 +17,7 @@ const Game = () => {
     const [betAmount, setBetAmount] = useState<number>(0);
     const [bankBalance, setBankBalance] = useState<number>(1000);
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [gameResult, setGameResult] = useState<'win' | 'lose' | 'tie' | 'bust' | 'null'>('null');
+    const [gameResult, setGameResult] = useState<'win' | 'lose' | 'tie' | 'playerBust' | 'dealerBust' | 'null'>('null');
     const [showDealerFirstCard, setShowDealerFirstCard] = useState<boolean>(false);
     const chipValues = [5, 10, 25, 50, 100];
 
@@ -40,7 +40,7 @@ const Game = () => {
         if (playerValue > 21) {
             setGameState('game_over');
             updateBankBalance(-betAmount);
-            openModal('bust');
+            openModal('playerBust');
         } else if (playerValue === 21) {
             setGameState('game_over');
             updateBankBalance(betAmount * 2.5);
@@ -96,11 +96,11 @@ const Game = () => {
         if (playerValue > 21) {
             setGameState('game_over');
             updateBankBalance(-betAmount);
-            openModal('bust');
+            openModal('playerBust');
         } else if (dealerValue > 21) {
             setGameState('game_over');
             updateBankBalance(betAmount * 2);
-            openModal('win');
+            openModal('dealerBust');
         } else if (playerValue === 21 && dealerValue === 21) {
             setGameState('game_over');
             openModal('tie');
@@ -151,7 +151,7 @@ const Game = () => {
         setBankBalance(bankBalance - value);
     };
 
-    const openModal = (result: 'win' | 'lose' | 'tie' | 'bust') => {
+    const openModal = (result: 'win' | 'lose' | 'tie' | 'playerBust' | 'dealerBust') => {
         setGameResult(result);
         setShowModal(true);
     }

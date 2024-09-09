@@ -14,8 +14,10 @@ export const Modal: React.FC<Modal> = ({ onClose, result }) => {
         resultStatement = 'Dealer won!';
     } else if (result === 'tie') {
         resultStatement = 'It \'s a tie!';
-    } else if (result === 'bust') {
-        resultStatement = 'Bust';
+    } else if (result === 'playerBust') {
+        resultStatement = 'Player Bust';
+    } else if (result === 'dealerBust') {
+        resultStatement = 'Dealer Bust';
     }
     
     return (

@@ -11,7 +11,7 @@ const Chip: React.FC<ChipProps> = ({ value, onClick, disabled }) => {
     let backgroundColor = "zinc";
 
     if (value === 5) {
-        backgroundColor = "orange";
+        backgroundColor = "yellow";
     } else if (value === 10) {
         backgroundColor = "green";
     } else if (value === 25) {
