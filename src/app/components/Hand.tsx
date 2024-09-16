@@ -10,7 +10,7 @@ const Hand: React.FC<HandProps> = ({ cards, showFirstCard }) => {
 	return (
 		<div className="flex flex-row gap-3 m-5">
 		{cards.map((card, index) => (
-			<Card key={index} suit={card.suit} value={index === 0 && !showFirstCard ? 'X' : card.value} />
+			<Card key={index} suit={index === 0 && !showFirstCard ? 'Star' : card.suit} value={index === 0 && !showFirstCard ? 'X' : card.value} />
 		))}
 		</div>
 	);

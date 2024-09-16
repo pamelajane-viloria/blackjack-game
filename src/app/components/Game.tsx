@@ -19,16 +19,33 @@ const Game = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [gameResult, setGameResult] = useState<'win' | 'lose' | 'tie' | 'playerBust' | 'dealerBust' | 'null'>('null');
     const [showDealerFirstCard, setShowDealerFirstCard] = useState<boolean>(false);
-    const chipValues = [5, 10, 25, 50, 100];
+    const chipValues = [
+        { value: 5, color: 'yellow' },
+        { value: 10, color: 'green' },
+        { value: 25, color: 'blue' },
+        { value: 50, color: 'purple' },
+        { value: 100, color: 'red' }
+    ];
 
     const startGame = () => {
-        dealInitialCards();
         setGameState('start_game');
+        dealInitialCards();
     };
   
     const dealInitialCards = () => {
         setPlayerHand([dealCard(), dealCard()]);
         setDealerHand([dealCard(), dealCard()]);
+    };
+
+    const placeBet = (amount: number) => {
+        if (amount) {
+            setBetAmount(amount);
+            startGame();
+            setGameState('player_turn');
+            setIsPlayerTurn(true);    
+        } else (
+            alert("Insufficient bank balance")
+        )
     };
 
     const hit = () => {
@@ -128,15 +145,6 @@ const Game = () => {
         setGameState('game_over');
     };
 
-    const placeBet = (amount: number) => {
-        if (bankBalance >= amount) {
-            setBetAmount(amount);
-            startGame();
-        }
-        setGameState('player_turn');
-        setIsPlayerTurn(true);
-    };
-
     const clearBet = () => {
         setBankBalance(bankBalance + betAmount);
         setBetAmount(0);
@@ -166,10 +174,8 @@ const Game = () => {
         setShowDealerFirstCard(false);
     };
 
-    console.log(gameState);
-
     return (
-		<div className="px-10">
+		<div className="px-3 lg:px-10">
 			<div className="player-dealer-container flex flex-col justify-center pt-5">
             {dealerHand.length > 0 ? (
                 <div className="mx-auto relative">
@@ -214,21 +220,21 @@ const Game = () => {
 					</button>
 				</div>
 			</div>
-			<div className="control-container flex justify-between items-end gap-16 py-9">
+			<div className="control-container flex flex-col-reverse lg:flex-row lg:justify-between lg:items-end gap-4 lg:gap-16 py-9">
 				<div className="betting-section">
 					<div className="flex gap-3 mb-3">
 						<Button className="bg-zinc-50/[.06] basis-1/2 rounded-xl py-2 text-zinc-100 font-bold bg-blue-600 disabled:opacity-50" onClick={() => placeBet(betAmount)} disabled={gameState === 'player_turn' || betAmount === 0}>Bet ${betAmount}</Button>
 						<Button className="bg-red-50/[.06] basis-1/2 rounded-xl py-2 text-zinc-300 bg-red-600 disabled:opacity-50" onClick={clearBet} disabled={gameState === 'player_turn'}>Clear Bet</Button>
 					</div>
 					<div className="flex gap-3">
-						{chipValues.map((value) => (
-                            <Chip key={value} value={value} onClick={() => handleChipClick(value)} disabled={gameState === 'player_turn' || value >= bankBalance}/>
+						{chipValues.map((chip) => (
+                            <Chip key={chip.value} value={chip.value} color={chip.color} onClick={() => handleChipClick(chip.value)} disabled={gameState === 'player_turn' || chip.value > bankBalance}/>
 						))}            
 					</div>
 				</div>
-				<div className="bank-section me-48">
-					<p className="text-zinc-300 text-xl font-light mb-3">Your Bank</p>
-					<p className="text-zinc-100 text-6xl font-bold">${bankBalance}</p>
+				<div className="bank-section lg:me-48">
+					<p className="text-zinc-300 font-light text-sm mb-1 md:text-lg lg:text-xl md:mb-3">Your Bank</p>
+					<p className="text-zinc-100 font-bold text-lg md:text-3xl lg:text-6xl">${bankBalance}</p>
 				</div>
 			</div>
             {showModal && (

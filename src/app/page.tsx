@@ -3,7 +3,7 @@ import Game from "./components/Game";
 
 export default function Home() {
     return (
-        <div className=" bg-gradient-to-tr from-slate-700 to-slate-950 ">
+        <div>
             <Game />
         </div>
     );
